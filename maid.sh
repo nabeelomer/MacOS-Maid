@@ -12,18 +12,18 @@ fi
 
 #Delete Saved SSIDs For Security
 #Be Sure To Set Home And Work SSID for ease of use.
-# printf "Deleting saved wireless networks.\n"
-# homessid="AddMe"
-# workssid="AddMe"
-# IFS=$'\n'
-# for ssid in $(networksetup -listpreferredwirelessnetworks en0 | grep -v "Preferred networks on en0:" | grep -v $homessid | grep -v $workssid | sed "s/[\	]//g")
-# do
-#     networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
-# done
+printf "Deleting saved wireless networks.\n"
+homessid="Get Off My LAN"
+workssid="AddMe"
+IFS=$'\n'
+for ssid in $(networksetup -listpreferredwirelessnetworks en0 | grep -v "Preferred networks on en0:" | grep -v $homessid | grep -v $workssid | sed "s/[\	]//g")
+do
+    networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
+done
 
 #Install Updates.
-printf "Installing needed updates.\n"
-softwareupdate -i -a > /dev/null 2>&1
+# printf "Installing needed updates.\n"
+# softwareupdate -i -a > /dev/null 2>&1
 
 #Taking out the trash.
 printf "Emptying the trash.\n"
@@ -65,6 +65,10 @@ sudo purge > /dev/null 2>&1
 #Securly Erasing Data.
 # printf "Securely erasing free space (This will take a while). \n"
 # diskutil secureErase freespace 0 "$( df -h / | tail -n 1 | awk '{print $1}')" > /dev/null 2>&1
+
+#Brew Upgrades
+printf "Running Brew upgrades"
+brew upgrade > /dev/null 2>&1
 
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"
