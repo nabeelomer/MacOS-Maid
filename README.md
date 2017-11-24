@@ -15,7 +15,7 @@ A simple shell script I run to keep my MacBook clean and patched.
 - ~~Removes All Docker Containers~~
 - Purges Memory
 - ~~Removes known_hosts file~~
-- Securely Wipe Freespace
+- ~~Securely Wipe Freespace~~
 - Upgrades things installed with `brew`.
 
 ## Usage:
