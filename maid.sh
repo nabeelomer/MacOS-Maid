@@ -12,14 +12,14 @@ fi
 
 #Delete Saved SSIDs For Security
 #Be Sure To Set Home And Work SSID for ease of use.
-printf "Deleting saved wireless networks.\n"
-homessid="AddMe"
-workssid="AddMe"
-IFS=$'\n'
-for ssid in $(networksetup -listpreferredwirelessnetworks en0 | grep -v "Preferred networks on en0:" | grep -v $homessid | grep -v $workssid | sed "s/[\	]//g")
-do
-    networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
-done
+# printf "Deleting saved wireless networks.\n"
+# homessid="AddMe"
+# workssid="AddMe"
+# IFS=$'\n'
+# for ssid in $(networksetup -listpreferredwirelessnetworks en0 | grep -v "Preferred networks on en0:" | grep -v $homessid | grep -v $workssid | sed "s/[\	]//g")
+# do
+#     networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
+# done
 
 #Install Updates.
 printf "Installing needed updates.\n"
@@ -51,20 +51,20 @@ gem cleanup > /dev/null 2>&1
 
 #Cleaning Up Docker.
 #You May Not Want To Do This.
-printf "Removing all Docker containers.\n"
-docker rmi -f "$(docker images -q --filter 'dangling=true')" > /dev/null 2>&1
+# printf "Removing all Docker containers.\n"
+# docker rmi -f "$(docker images -q --filter 'dangling=true')" > /dev/null 2>&1
 
 #Purging Memory.
 printf "Purging memory.\n"
 sudo purge > /dev/null 2>&1
 
 #Removing Known SSH Hosts
-printf "Removing known ssh hosts.\n"
-sudo rm -f /Users/"$(whoami)"/.ssh/known_hosts > /dev/null 2>&1
+# printf "Removing known ssh hosts.\n"
+# sudo rm -f /Users/"$(whoami)"/.ssh/known_hosts > /dev/null 2>&1
 
 #Securly Erasing Data.
-printf "Securely erasing free space (This will take a while). \n"
-diskutil secureErase freespace 0 "$( df -h / | tail -n 1 | awk '{print $1}')" > /dev/null 2>&1
+# printf "Securely erasing free space (This will take a while). \n"
+# diskutil secureErase freespace 0 "$( df -h / | tail -n 1 | awk '{print $1}')" > /dev/null 2>&1
 
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"
