@@ -5,7 +5,7 @@ SECONDS=0
 amiroot=$(sudo -n uptime 2>&1| grep -c "load")
 if [ "$amiroot" -eq 0 ]
 then
-    printf "Maid Requires Root Access. Enter Your Password:\n"
+    printf "Maid Service Require Root Access. Please Enter Your Password.\n"
     sudo -v
     printf "\n"
 fi
@@ -14,11 +14,11 @@ fi
 #Be Sure To Set Home And Work SSID for ease of use.
 printf "Deleting saved wireless networks.\n"
 homessid="Get Off My LAN"
-workssid="----"
+workssid="AddMe"
 IFS=$'\n'
 for ssid in $(networksetup -listpreferredwirelessnetworks en0 | grep -v "Preferred networks on en0:" | grep -v $homessid | grep -v $workssid | sed "s/[\	]//g")
 do
-    networksetup -removepreferredwirelessnetwork en0 "$ssid" >> maid.log
+    networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
 done
 
 #Install Updates.
@@ -27,27 +27,27 @@ done
 
 #Taking out the trash.
 printf "Emptying the trash.\n"
-sudo rm -rfv /Volumes/*/.Trashes >> maid.log
-sudo rm -rfv ~/.Trash  >> maid.log
+sudo rm -rfv /Volumes/*/.Trashes > /dev/null 2>&1
+sudo rm -rfv ~/.Trash  > /dev/null 2>&1
 
 #Clean the logs.
 printf "Emptying the system log files.\n"
-sudo rm -rfv /private/var/log/*  >> maid.log
-sudo rm -rfv /Library/Logs/DiagnosticReports/* >> maid.log
+sudo rm -rfv /private/var/log/*  > /dev/null 2>&1
+sudo rm -rfv /Library/Logs/DiagnosticReports/* > /dev/null 2>&1
 
 printf "Deleting the quicklook files.\n"
-sudo rm -rf /private/var/folders/ >> maid.log
+sudo rm -rf /private/var/folders/ > /dev/null 2>&1
 
 #Cleaning Up Homebrew.
 printf "Cleaning up Homebrew.\n"
-brew cleanup --force -s >> maid.log
-brew cask cleanup >> maid.log
-rm -rfv /Library/Caches/Homebrew/* >> maid.log
-brew tap --repair >> maid.log
+brew cleanup --force -s > /dev/null 2>&1
+brew cask cleanup > /dev/null 2>&1
+rm -rfv /Library/Caches/Homebrew/* > /dev/null 2>&1
+brew tap --repair > /dev/null 2>&1
 
 #Cleaning Up Ruby.
 printf "Cleanup up Ruby.\n"
-gem cleanup >> maid.log
+gem cleanup > /dev/null 2>&1
 
 #Cleaning Up Docker.
 #You May Not Want To Do This.
@@ -56,7 +56,7 @@ gem cleanup >> maid.log
 
 #Purging Memory.
 printf "Purging memory.\n"
-sudo purge >> maid.log
+sudo purge > /dev/null 2>&1
 
 #Removing Known SSH Hosts
 # printf "Removing known ssh hosts.\n"
@@ -68,9 +68,9 @@ sudo purge >> maid.log
 
 #Brew Upgrades
 printf "Running Brew upgrades"
-brew upgrade >> maid.log
+brew upgrade > /dev/null 2>&1
 
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"
 
-printf "Maid Service Took %s this time. See 'maid.log' for details.\n" "$timed"
+printf "Maid Service Took %s this time. Dont Forget To Tip!\n" "$timed"
